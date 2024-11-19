@@ -4,7 +4,6 @@ COPY ./package.json .
 COPY ./yarn.lock .
 RUN yarn install
 COPY . .
-RUN yarn build
 
 FROM node:20 AS deps
 WORKDIR /app
@@ -14,7 +13,8 @@ RUN yarn install --production
 
 FROM node:20
 WORKDIR /app
-COPY --from=build /app/dist ./dist
+COPY --from=build /app/src ./src
+COPY --from=build /app/tsconfig.json ./tsconfig.json
 COPY --from=deps /app/package.json .
 COPY --from=deps /app/yarn.lock .
 COPY --from=deps /app/node_modules ./node_modules
