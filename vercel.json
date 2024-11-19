@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "env": {
+    "FEEDGEN_HOSTNAME": "example.com",
+    "FEEDGEN_SQLITE_LOCATION": ":memory:",
+    "FEEDGEN_SUBSCRIPTION_ENDPOINT": "wss://bsky.network",
+    "FEEDGEN_PUBLISHER_DID": "did:plc:dukwtgblmuj7hf3yhfrcqyop",
+    "FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY": "3000"
+  }
+}

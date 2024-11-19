@@ -4,7 +4,7 @@
   "description": "atproto feed generator starter kit",
   "main": "index.js",
   "repository": "git@github.com:bluesky-social/feed-generator.git",
-  "author": "dholms <dtholmgren@gmail.com>",
+  "author": "zachtball",
   "license": "MIT",
   "scripts": {
     "publishFeed": "ts-node scripts/publishFeedGen.ts",
