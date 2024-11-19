@@ -1,17 +1,17 @@
-FROM node:20 as build
+FROM node:18 as build
 WORKDIR /app
 COPY ./package.json .
 COPY ./yarn.lock .
 RUN yarn install
 COPY . .
 
-FROM node:20 AS deps
+FROM node:18 AS deps
 WORKDIR /app
 COPY --from=build /app/package.json .
 COPY --from=build /app/yarn.lock .
 RUN yarn install --production
 
-FROM node:20
+FROM node:18
 WORKDIR /app
 COPY --from=build /app/src ./src
 COPY --from=build /app/tsconfig.json ./tsconfig.json
