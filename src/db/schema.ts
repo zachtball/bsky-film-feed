@@ -10,6 +10,7 @@ export type Post = {
   score: number
   last_scored: number
   mod: number
+  needs_eval: string
 }
 
 export type SubState = {

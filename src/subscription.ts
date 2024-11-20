@@ -9,22 +9,34 @@ const settings = {
     'film',
     'movie',
     'cinema',
-    'hollywood',
-    'bollywood',
     'screenplay',
-    'director',
     'actress',
     'actor',
     'oscars',
     'screenwriter',
     'blockbuster',
-    'indie film',
     'filmsky',
     'theater',
     'theaters',
+    'director',
+    'letterboxd',
   ],
+  // list of keywords that should be evaluated by LLM
+  keywordsToEval: ['director', 'film', 'theater'],
   partialKeywords: [],
-  negativeKeywords: [],
+  negativeKeywords: [
+    'game',
+    'gaming',
+    'video game',
+    'videogame',
+    'gamer',
+    'games',
+    'gameplay',
+    'game developer',
+    'game development',
+    'esports',
+    'art director',
+  ],
   boostedKeywords: {},
 }
 
@@ -35,6 +47,17 @@ function hasMatch(
   negativeKeywords: string[],
 ) {
   return getMatch(text, keywords, partialKeywords, negativeKeywords) !== null
+}
+
+function getNeedsEval(text: string) {
+  const lowerText = text.toLowerCase()
+
+  for (const keyword of settings.keywordsToEval) {
+    if (lowerText.includes(keyword)) {
+      return 'true'
+    }
+  }
+  return 'false'
 }
 
 function getMatch(
@@ -167,8 +190,8 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       })
       .map((create) => {
         const mod = calculateMod(create.record.text, this.boostedKeywords)
+        const needs_eval = getNeedsEval(create.record.text)
         // Map matched posts to a db row
-        // console.dir(create);
         const now = Date.now()
         return {
           uri: create.uri,
@@ -177,6 +200,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
           score: 0,
           last_scored: 0,
           mod: mod,
+          needs_eval,
         }
       })
 

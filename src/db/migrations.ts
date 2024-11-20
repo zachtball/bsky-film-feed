@@ -18,6 +18,9 @@ migrations['001'] = {
       .addColumn('score', 'integer', (col) => col.notNull())
       .addColumn('last_scored', 'integer', (col) => col.notNull())
       .addColumn('mod', 'integer', (col) => col.notNull())
+      .addColumn('needs_eval', 'varchar', (col) =>
+        col.notNull().defaultTo('false'),
+      )
       .execute()
     await db.schema
       .createTable('sub_state')
