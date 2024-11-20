@@ -14,8 +14,10 @@ migrations['001'] = {
       .createTable('post')
       .addColumn('uri', 'varchar', (col) => col.primaryKey())
       .addColumn('cid', 'varchar', (col) => col.notNull())
-      .addColumn('indexedAt', 'varchar', (col) => col.notNull())
-      .addColumn('hotScore', 'real', (col) => col.defaultTo(0))
+      .addColumn('first_indexed', 'integer', (col) => col.notNull())
+      .addColumn('score', 'integer', (col) => col.notNull())
+      .addColumn('last_scored', 'integer', (col) => col.notNull())
+      .addColumn('mod', 'integer', (col) => col.notNull())
       .execute()
     await db.schema
       .createTable('sub_state')

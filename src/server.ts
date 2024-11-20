@@ -9,6 +9,7 @@ import { createDb, Database, migrateToLatest } from './db'
 import { FirehoseSubscription } from './subscription'
 import { AppContext, Config } from './config'
 import wellKnown from './well-known'
+import { BskyAgent } from '@atproto/api'
 
 export class FeedGenerator {
   public app: express.Application
@@ -53,7 +54,8 @@ export class FeedGenerator {
       didResolver,
       cfg,
     }
-    feedGeneration(server, ctx)
+    const agent = new BskyAgent({ service: 'https://public.api.bsky.app' })
+    feedGeneration(server, ctx, agent)
     describeGenerator(server, ctx)
     app.use(server.xrpc.router)
     app.use(wellKnown(ctx))

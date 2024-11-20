@@ -753,6 +753,11 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
+console-log-colors@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/console-log-colors/-/console-log-colors-0.5.0.tgz#7084c88fa11dba1bdff82f38f5728595d1a4d64e"
+  integrity sha512-ixjGY06zMLCnNXeBdDKL6GuS1+/yQ1GorbZ9YsptP6jDgLqk/bBdQ5cTQvVveKUbO8Th6zwIhY8yRwhrpjXk6g==
+
 content-disposition@0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.4.tgz#8b82b4efac82512a02bb0b1dcec9d2c5e8eb5bfe"
