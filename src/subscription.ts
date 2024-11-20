@@ -3,10 +3,30 @@ import {
   isCommit,
 } from './lexicon/types/com/atproto/sync/subscribeRepos'
 import { FirehoseSubscriptionBase, getOpsByType } from './util/subscription'
-import { settings } from './settings'
 
-const POST_METRIC = 'bluesky.feed.eligiblePosts'
-const TOTAL_POSTS_METRIC = 'bluesky.feed.totalPosts'
+const settings = {
+  keywords: [
+    'film',
+    'movie',
+    'cinema',
+    'hollywood',
+    'bollywood',
+    'screenplay',
+    'director',
+    'actress',
+    'actor',
+    'oscars',
+    'screenwriter',
+    'blockbuster',
+    'indie film',
+    'filmsky',
+    'theater',
+    'theaters',
+  ],
+  partialKeywords: [],
+  negativeKeywords: [],
+  boostedKeywords: {},
+}
 
 function hasMatch(
   text: string,
