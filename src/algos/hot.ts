@@ -244,7 +244,13 @@ ${text}
   // Delete posts that are not about film
   console.log({ urisToDelete })
   if (urisToDelete.length > 0) {
-    await ctx.db.deleteFrom('post').where('uri', 'in', urisToDelete).execute()
+    await ctx.db
+      .deleteFrom('post')
+      .where('uri', 'in', urisToDelete)
+      .execute()
+      .catch((err) => {
+        console.error('Error deleting posts in llmEval:', err)
+      })
     console.log('llmEval deleted posts')
   }
 
@@ -255,6 +261,9 @@ ${text}
       .set({ needs_eval: 'false' })
       .where('uri', 'in', evaluatedUris)
       .execute()
+      .catch((err) => {
+        console.error('Error updating needs_eval:', err)
+      })
   }
 }
 
@@ -311,6 +320,10 @@ export const handler = async (
     )
   }
   const res = await builder.execute()
+  console.log(
+    'scores',
+    res.map((row) => row.score),
+  )
 
   // for (const row of res) {
   //   console.log(row);
