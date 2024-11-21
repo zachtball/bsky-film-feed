@@ -16,13 +16,12 @@ const settings = {
     'screenwriter',
     'blockbuster',
     'filmsky',
-    'theater',
     'theaters',
     'director',
     'letterboxd',
   ],
   // list of keywords that should be evaluated by LLM
-  keywordsToEval: ['director', 'film', 'theater'],
+  keywordsToEval: ['director', 'film', 'actress', 'actor', 'movie'],
   partialKeywords: [],
   negativeKeywords: [
     'game',
@@ -36,6 +35,7 @@ const settings = {
     'game development',
     'esports',
     'art director',
+    'short film',
   ],
   boostedKeywords: {},
 }

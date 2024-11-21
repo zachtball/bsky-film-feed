@@ -162,13 +162,13 @@ async function logPosts(ctx: AppContext, agent: BskyAgent, limit: number) {
 }
 
 async function llmEval(ctx: AppContext, agent: BskyAgent) {
-  // Select the top 10 posts by score
+  // Select the top 20 posts by score that need eval
   const builder = ctx.db
     .selectFrom('post')
     .selectAll()
     .where('needs_eval', '=', 'true')
     .orderBy('score', 'desc')
-    .limit(20)
+    .limit(10)
 
   const res = await builder.execute()
 
@@ -237,7 +237,14 @@ ${text}
   }
 
   // Delete posts that are not about film
+  console.log({ urisToDelete })
   if (urisToDelete.length > 0) {
+    const postsToDelete = await ctx.db
+      .selectFrom('post')
+      .selectAll()
+      .where('uri', 'in', urisToDelete)
+      .execute()
+    console.log('postsToDelete', postsToDelete.length)
     await ctx.db.deleteFrom('post').where('uri', 'in', urisToDelete).execute()
   }
 
@@ -263,10 +270,10 @@ export const handler = async (
       refreshScores(ctx, agent)
     }, 1000 * 60 * 15)
 
-    // Schedule an llm evaluation every 5 minutes
+    // Schedule an llm evaluation every 1 minute
     setInterval(() => {
       llmEval(ctx, agent)
-    }, 1000 * 60 * 5)
+    }, 1000 * 60 * 1)
 
     // Schedule a cleanup of stale posts every 2 hours
     setInterval(() => {
