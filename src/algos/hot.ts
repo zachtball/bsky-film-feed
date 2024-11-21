@@ -244,6 +244,15 @@ ${text}
   // Delete posts that are not about film
   console.log({ urisToDelete })
   if (urisToDelete.length > 0) {
+    const urls = urisToDelete.map((uri) => {
+      const split = uri.split('/')
+      // https://github.com/bluesky-social/atproto/discussions/2523
+      const url = `https://bsky.app/profile/${split[2]}/post/${
+        split[split.length - 1]
+      }`
+      return url
+    })
+
     await ctx.db
       .deleteFrom('post')
       .where('uri', 'in', urisToDelete)
@@ -251,7 +260,7 @@ ${text}
       .catch((err) => {
         console.error('Error deleting posts in llmEval:', err)
       })
-    console.log('llmEval deleted posts')
+    console.log('llmEval deleted posts', urls)
   }
 
   // Update evaluated posts to set needs_eval = false
