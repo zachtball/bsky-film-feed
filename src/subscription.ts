@@ -190,9 +190,9 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
             split[split.length - 1]
           }`
           // console.log("--------------------------------------------------------");
-          console.log(url)
-          console.log(create.record.text)
-          console.log(this.matchedCount)
+          // console.log(url)
+          // console.log(create.record.text)
+          // console.log(this.matchedCount)
         }
         return match
       })

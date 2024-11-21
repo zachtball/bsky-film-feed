@@ -201,7 +201,7 @@ async function llmEval(ctx: AppContext, agent: BskyAgent) {
   )
 
   // Define the expected response format using Zod
-  const resFormat = z.object({ isAboutFilm: z.boolean() })
+  const resFormat = z.object({ isAboutCinema: z.boolean() })
 
   // Evaluate posts
   for (const [uri, text] of postsToEval) {
@@ -213,20 +213,21 @@ async function llmEval(ctx: AppContext, agent: BskyAgent) {
           {
             role: 'system',
             content:
-              'I am a social media feed. I will ask you if a post is about film (like cinema and movies). If the post is about film, you will respond with "true". If it is not about film, you will respond with "false".',
+              'I am a social media feed. You will help me moderate the feed and keep discussions on topic. I will ask you if a post is about cinema. If the post is about cinema, you will respond with "true". If it is not about film, you will respond with "false".',
           },
           {
             role: 'user',
-            content: `Is this post about film?:
+            content: `Is this post about cinema?:
 
 ${text}
             `,
           },
         ],
-        response_format: zodResponseFormat(resFormat, 'isAboutFilm'),
+        response_format: zodResponseFormat(resFormat, 'isAboutCinema'),
       })
 
-      const isPostAboutFilm = completion.choices[0].message.parsed?.isAboutFilm
+      const isPostAboutFilm =
+        completion.choices[0].message.parsed?.isAboutCinema
 
       if (isPostAboutFilm === false) {
         console.log(`llmEval deleting post: ${text}`)
