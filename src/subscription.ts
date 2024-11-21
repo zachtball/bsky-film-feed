@@ -156,6 +156,14 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
+      // filter out posts older than 48 hours
+      .filter((create) => {
+        const createdAt = new Date(create.record.createdAt)
+        const currentTime = new Date()
+        const diffInMs = currentTime.getTime() - createdAt.getTime()
+        const diffInHours = diffInMs / (1000 * 60 * 60)
+        return diffInHours < 48
+      })
       .filter((create) => {
         this.totalPostsCounter++
         let match =

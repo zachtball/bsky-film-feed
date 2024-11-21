@@ -83,6 +83,9 @@ async function refreshScores(ctx: AppContext, agent: BskyAgent) {
       (currentTime - indexedTime) / 1000 / 60 / 60,
       likeCount + repostCount + row.mod,
     )
+    // if (score > 0.2) {
+    //   console.log({ likeCount, repostCount, score })
+    // }
     // console.log("Updating score for post: " + row.uri + " to " + score);
     await ctx.db
       .insertInto('post')
@@ -202,6 +205,7 @@ async function llmEval(ctx: AppContext, agent: BskyAgent) {
 
   // Evaluate posts
   for (const [uri, text] of postsToEval) {
+    console.log(`llmEval evaluating ${text}`)
     try {
       const completion = await openai.beta.chat.completions.parse({
         model: 'gpt-4o-mini',
@@ -239,13 +243,8 @@ ${text}
   // Delete posts that are not about film
   console.log({ urisToDelete })
   if (urisToDelete.length > 0) {
-    const postsToDelete = await ctx.db
-      .selectFrom('post')
-      .selectAll()
-      .where('uri', 'in', urisToDelete)
-      .execute()
-    console.log('postsToDelete', postsToDelete.length)
     await ctx.db.deleteFrom('post').where('uri', 'in', urisToDelete).execute()
+    console.log('llmEval deleted posts')
   }
 
   // Update evaluated posts to set needs_eval = false
