@@ -10,8 +10,6 @@ const settings = {
     'movie',
     'cinema',
     'screenplay',
-    'actress',
-    'actor',
     'oscars',
     'screenwriter',
     'blockbuster',
@@ -21,7 +19,7 @@ const settings = {
     'letterboxd',
   ],
   // list of keywords that should be evaluated by LLM
-  keywordsToEval: ['director', 'film', 'actress', 'actor', 'movie'],
+  keywordsToEval: ['director', 'film', 'movie'],
   partialKeywords: [],
   negativeKeywords: [
     'game',
