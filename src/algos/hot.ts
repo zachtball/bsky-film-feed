@@ -228,7 +228,7 @@ ${text}
 
       const isPostAboutFilm =
         completion.choices[0].message.parsed?.isAboutCinema
-
+      console.log({ isPostAboutFilm })
       if (isPostAboutFilm === false) {
         console.log(`llmEval deleting post: ${text}`)
         urisToDelete.push(uri)

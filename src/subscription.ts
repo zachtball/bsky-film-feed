@@ -34,6 +34,8 @@ const settings = {
     'esports',
     'art director',
     'short film',
+    'patreon',
+    'onlyfans',
   ],
   boostedKeywords: {},
 }
