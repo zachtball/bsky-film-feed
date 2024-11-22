@@ -3,41 +3,22 @@ import {
   isCommit,
 } from './lexicon/types/com/atproto/sync/subscribeRepos'
 import { FirehoseSubscriptionBase, getOpsByType } from './util/subscription'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const settings = {
-  keywords: [
-    'film',
-    'movie',
-    'cinema',
-    'screenplay',
-    'oscars',
-    'screenwriter',
-    'blockbuster',
-    'filmsky',
-    'theaters',
-    'director',
-    'letterboxd',
-  ],
-  keywordsToEval: ['director', 'film', 'movie'],
-  partialKeywords: [],
-  negativeKeywords: [
-    'game',
-    'gaming',
-    'video game',
-    'videogame',
-    'gamer',
-    'games',
-    'gameplay',
-    'game developer',
-    'game development',
-    'esports',
-    'art director',
-    'short film',
-    'patreon',
-    'onlyfans',
-  ],
-  boostedKeywords: {},
+  keywords: JSON.parse(process.env.SETTINGS_KEYWORDS as string),
+  keywordsToEval: JSON.parse(process.env.SETTINGS_KEYWORDS_TO_EVAL as string),
+  partialKeywords: JSON.parse(process.env.SETTINGS_PARTIAL_KEYWORDS as string),
+  negativeKeywords: JSON.parse(
+    process.env.SETTINGS_NEGATIVE_KEYWORDS as string,
+  ),
+  boostedKeywords: JSON.parse(process.env.SETTINGS_BOOSTED_KEYWORDS as string),
 }
+
+console.log('---------------- SERVER STARTING ----------------')
+console.log(settings)
+console.log('-------------------------------------------')
 
 function hasMatch(
   text: string,
