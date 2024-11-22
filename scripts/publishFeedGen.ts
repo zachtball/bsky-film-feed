@@ -12,12 +12,12 @@ const run = async () => {
   }
 
   const answers = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'handle',
-      message: 'Enter your Bluesky handle:',
-      required: true,
-    },
+    // {
+    //   type: 'input',
+    //   name: 'handle',
+    //   message: 'Enter your Bluesky handle:',
+    //   required: true,
+    // },
     {
       type: 'password',
       name: 'password',
@@ -30,43 +30,40 @@ const run = async () => {
       default: 'https://bsky.social',
       required: false,
     },
-    {
-      type: 'input',
-      name: 'recordName',
-      message:
-        "Enter the short name of the algo. This will be shown in the feed's URL:",
-      required: true,
-    },
-    {
-      type: 'input',
-      name: 'displayName',
-      message: 'Enter a display name for your feed:',
-      required: true,
-    },
-    {
-      type: 'input',
-      name: 'description',
-      message: 'Optionally, enter a brief description of your feed:',
-      required: false,
-    },
-    {
-      type: 'input',
-      name: 'avatar',
-      message:
-        'Optionally, enter a local path to an avatar that will be used for the feed:',
-      required: false,
-    },
+    // {
+    //   type: 'input',
+    //   name: 'recordName',
+    //   message:
+    //     "Enter the short name of the algo. This will be shown in the feed's URL:",
+    //   required: true,
+    // },
+    // {
+    //   type: 'input',
+    //   name: 'displayName',
+    //   message: 'Enter a display name for your feed:',
+    //   required: true,
+    // },
+    // {
+    //   type: 'input',
+    //   name: 'description',
+    //   message: 'Optionally, enter a brief description of your feed:',
+    //   required: false,
+    // },
+    // {
+    //   type: 'input',
+    //   name: 'avatar',
+    //   message:
+    //     'Optionally, enter a local path to an avatar that will be used for the feed:',
+    //   required: false,
+    // },
   ])
 
-  const {
-    handle,
-    password,
-    recordName,
-    displayName,
-    description,
-    avatar,
-    service,
-  } = answers
+  const handle = 'zaccb.bsky.social'
+  const recordName = 'hot'
+  const displayName = "Film - What's Hot"
+  const description = 'Popular posts about film'
+  const avatar = 'src/assets/film-clapper-3d-cartoon-icon-600nw-2239181291.png'
+  const { password, service } = answers
 
   const feedGenDid =
     process.env.FEEDGEN_SERVICE_DID ?? `did:web:${process.env.FEEDGEN_HOSTNAME}`
