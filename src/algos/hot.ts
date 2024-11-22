@@ -213,7 +213,7 @@ async function llmEval(ctx: AppContext, agent: BskyAgent) {
           {
             role: 'system',
             content:
-              'I am a social media feed. You will help me moderate the feed and keep discussions on topic. I will ask you if a post is about cinema. If the post is about cinema, you will respond with "true". If it is not about film, you will respond with "false".',
+              'I am a social media feed. You will help me moderate the feed and keep discussions on topic. I will ask you if a post is about cinema. If the post is about cinema, you will respond with "true". If it is not about film, you will respond with "false". If a post is about politics respond with "false".',
           },
           {
             role: 'user',
@@ -242,7 +242,6 @@ ${text}
   }
 
   // Delete posts that are not about film
-  console.log({ urisToDelete })
   if (urisToDelete.length > 0) {
     const urls = urisToDelete.map((uri) => {
       const split = uri.split('/')
