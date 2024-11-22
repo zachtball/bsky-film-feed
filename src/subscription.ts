@@ -18,7 +18,6 @@ const settings = {
     'director',
     'letterboxd',
   ],
-  // list of keywords that should be evaluated by LLM
   keywordsToEval: ['director', 'film', 'movie'],
   partialKeywords: [],
   negativeKeywords: [
@@ -54,10 +53,10 @@ function getNeedsEval(text: string) {
 
   for (const keyword of settings.keywordsToEval) {
     if (lowerText.includes(keyword)) {
-      return 'true'
+      return true
     }
   }
-  return 'false'
+  return false
 }
 
 function getMatch(
@@ -222,7 +221,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       await this.db
         .insertInto('post')
         .values(postsToCreate)
-        .onConflict((oc) => oc.doNothing())
+        .onConflict((oc) => oc.column('uri').doNothing())
         .execute()
     }
   }

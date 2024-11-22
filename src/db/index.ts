@@ -1,12 +1,29 @@
-import SqliteDb from 'better-sqlite3'
-import { Kysely, Migrator, SqliteDialect } from 'kysely'
+import { Pool } from 'pg'
+import { Kysely, Migrator, PostgresDialect, SqliteDialect } from 'kysely'
 import { DatabaseSchema } from './schema'
 import { migrationProvider } from './migrations'
+import fs from 'node:fs'
+import path from 'node:path'
 
-export const createDb = (location: string): Database => {
+export type Database = Kysely<DatabaseSchema>
+
+export const createDb = (connectionString: string): Database => {
+  const caCertPath = path.resolve(__dirname, '../assets/ca-certificate.crt')
+  const ca = fs.readFileSync(caCertPath).toString()
+
+  const sslConfig = {
+    rejectUnauthorized: true,
+    ca,
+  }
+
+  const pool = new Pool({
+    connectionString,
+    ssl: sslConfig,
+  })
+
   return new Kysely<DatabaseSchema>({
-    dialect: new SqliteDialect({
-      database: new SqliteDb(location),
+    dialect: new PostgresDialect({
+      pool,
     }),
   })
 }
@@ -16,5 +33,3 @@ export const migrateToLatest = async (db: Database) => {
   const { error } = await migrator.migrateToLatest()
   if (error) throw error
 }
-
-export type Database = Kysely<DatabaseSchema>

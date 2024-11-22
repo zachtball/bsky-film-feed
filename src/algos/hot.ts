@@ -99,7 +99,7 @@ async function refreshScores(ctx: AppContext, agent: BskyAgent) {
         needs_eval: row.needs_eval,
       })
       .onConflict((oc) =>
-        oc.doUpdateSet({
+        oc.column('uri').doUpdateSet({
           score: score,
           last_scored: currentTime,
         }),
@@ -169,7 +169,7 @@ async function llmEval(ctx: AppContext, agent: BskyAgent) {
   const builder = ctx.db
     .selectFrom('post')
     .selectAll()
-    .where('needs_eval', '=', 'true')
+    .where('needs_eval', '=', true)
     .orderBy('score', 'desc')
     .limit(10)
 
@@ -267,7 +267,7 @@ ${text}
   if (evaluatedUris.length > 0) {
     await ctx.db
       .updateTable('post')
-      .set({ needs_eval: 'false' })
+      .set({ needs_eval: false })
       .where('uri', 'in', evaluatedUris)
       .execute()
       .catch((err) => {
